@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Live Radio Karaoke</title>
+    <link rel="stylesheet" href="/frontend/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <!-- This div holds the dynamic background -->
+    <div id="dynamic-background"></div>
+
+    <div id="app-container">
+        <header id="main-header">
+            <h1>Live Radio Karaoke</h1>
+            <button id="open-station-modal-btn">Change Station</button>
+        </header>
+
+        <main id="main-content">
+            <div id="transcript-container">
+                <div id="transcript-content"></div>
+            </div>
+        </main>
+
+        <!-- New Summary Panel -->
+        <aside id="summary-panel">
+            <div class="summary-content">
+                <h3>Live Summary</h3>
+                <span id="summary-timestamp" class="summary-time-ago"></span>
+                <p id="summary-text">Waiting for enough content to generate a summary...</p>
+            </div>
+        </aside>
+
+        <footer id="player-bar">
+            <div class="player-station-info">
+                <button id="debug-toggle" onclick="toggleDebug()" title="Toggle Debug Panel">?</button>
+                <img id="player-station-logo" src="" alt="Station Logo" class="station-logo">
+                <div class="station-text">
+                    <span id="player-station-name">Select a Station</span>
+                    <div class="sub-info">
+                        <span id="language-indicator">--</span>
+                        <span>|</span>
+                        <span>Online: <span id="user-count-indicator">--</span></span>
+                        <span>|</span>
+                        <span id="performance-mode-indicator" title="Performance Mode">🔧 --</span>
+                        <button id="debug-test-btn" style="margin-left: 10px; padding: 2px 6px; font-size: 10px; background: #ff6b6b; color: white; border: none; border-radius: 3px; cursor: pointer;" onclick="testPerformanceIndicator()">TEST</button>
+                    </div>
+                </div>
+            </div>
+            <div id="player-controls">
+                <button id="playBtn" onclick="play()">▶</button>
+                <button id="stopBtn" onclick="stop()">⏹</button>
+                <div id="volume-controls">
+                    <button id="muteBtn" title="Mute">🔊</button>
+                    <input type="range" id="volumeSlider" min="0" max="100" value="100" title="Volume">
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Station Selection Modal -->
+    <!-- Station Selection Modal -->
+    <div id="station-modal">
+        <div class="modal-content">
+            <button id="close-station-modal-btn" class="close-btn">&times;</button>
+            <h2>Select a Station</h2>
+            
+            <!-- Station Browser Tabs -->
+            <div class="station-tabs">
+                <button class="tab-btn active" data-tab="favorites">⭐ Favorites</button>
+                <button class="tab-btn" data-tab="discover">🌍 Discover</button>
+                <button class="tab-btn" data-tab="news">📰 News</button>
+                <button class="tab-btn" data-tab="popular">🔥 Popular</button>
+            </div>
+            
+            <!-- Discover Tab Content -->
+            <div id="discover-tab" class="tab-content">
+                <div class="search-filters">
+                    <div class="search-row">
+                        <input type="text" id="station-search" placeholder="Search stations..." />
+                        <button id="search-btn">🔍</button>
+                    </div>
+                    <div class="filter-row">
+                        <select id="country-filter">
+                            <option value="">All Countries</option>
+                        </select>
+                        <select id="language-filter">
+                            <option value="">All Languages</option>
+                        </select>
+                        <select id="category-filter">
+                            <option value="popular">Popular</option>
+                            <option value="news">News</option>
+                            <option value="music">Music</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="search-results">
+                    <div id="discover-stations" class="station-grid">
+                        <!-- Dynamically populated -->
+                    </div>
+                    <div id="loading-indicator" style="display: none;">
+                        <span>🔄 Discovering stations...</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Favorites Tab Content -->
+            <div id="favorites-tab" class="tab-content active">
+                <div id="station-list" class="station-grid">
+                    <!-- Existing curated stations -->
+                </div>
+            </div>
+            
+            <!-- News Tab Content -->
+            <div id="news-tab" class="tab-content">
+                <div id="news-stations" class="station-grid">
+                    <!-- News stations -->
+                </div>
+            </div>
+            
+            <!-- Popular Tab Content -->
+            <div id="popular-tab" class="tab-content">
+                <div id="popular-stations" class="station-grid">
+                    <!-- Popular stations -->
+                </div>
+            </div>
+        </div>
+    </div>    <!-- Debug panel -->
+    <div id="debug-panel">
+        <div class="sync-control-container">
+            <label for="sync-offset-slider">Sync Offset:</label>
+            <input type="range" id="sync-offset-slider" min="-15.0" max="0.0" value="-2.0" step="0.05" disabled>
+            <span id="sync-offset-value">-2.00s</span>
+        </div>
+        <div id="debug-box">
+            <h3>Debug Messages</h3>
+            <ul id="debug-content"></ul>
+        </div>
+    </div>
+
+    <!-- Hidden / Utility Elements -->
+    <audio id="player"></audio>
+    <!-- S2T Chinese Converter Library -->
+    <script src="https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/full.min.js"></script>
+    <!-- Markdown and Sanitizer Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
+    <script src="/frontend/js/main.js" defer></script>
+</body>
+</html>

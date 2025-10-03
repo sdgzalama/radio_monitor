@@ -1,0 +1,4 @@
+[server]
+# Maximum message size (MB) accepted by Streamlit's WebSocket bridge.
+# Increased to allow larger diarization payloads (use with caution).
+maxMessageSize = 900
